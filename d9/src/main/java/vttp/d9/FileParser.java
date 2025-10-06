@@ -36,7 +36,9 @@ public class FileParser {
             String terms[] = line.split(" ");
 
             switch(terms[0]) {
+                //GRID creates matrix with rows and columns specified in file
                 case GRID:
+                    System.out.println("Starting GRID");
                     width = Integer.parseInt(terms[1]);
                     height = Integer.parseInt(terms[2]);
                     grid = new char[height][width];
@@ -46,13 +48,15 @@ public class FileParser {
                         }
                     }
                     break;
-                
+                //startX and startY defined by file
                 case START:
+                    System.out.println("Starting START");
                     startX = Integer.parseInt(terms[1]);
                     startY = Integer.parseInt(terms[2]);
                     break;
-
+                //populateGrid() generates first generation of matrix characters according to file requirement
                 case DATA:
+                    System.out.println("Starting DATA");
                     populateGrid(startX, startY, grid);
                     stop = true;
                     break;

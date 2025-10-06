@@ -17,7 +17,7 @@ public class Conway {
 
     public void generate(int count) {
         for (int i = 0; i < count; i++) {
-            System.out.printf("Generating %d\n", i);
+            System.out.printf("\nGenerating %d\n", i);
             char[][] nextGen = evaluate();
             generations.add(nextGen);
         }
@@ -26,16 +26,20 @@ public class Conway {
     private char[][] evaluate() {
         char[][] lastGen = generations.get(generations.size() - 1);
         char[][] nextGen = createGrid(lastGen);
+        //Loop through each entry of lastGen
         for (int y = 0; y < lastGen.length; y++) {
             for (int x = 0; x < lastGen[y].length; x++) {
                 int n = countNeighboursWithStream(x, y, lastGen);
                 if (isPopulated(x, y, lastGen)) {
                     // Die of absence of reproduction or overpopulation
+                    //Entry populated + <=1 OR >= 4 neighbours -> Empty entry
                     if ((n<=1) || (n>=4)) {
                         nextGen[y][x] = ' ';
+                    //Entry populated + 2/3 neighbours -> Populate entry
                     } else if ((n>=2) && (n<=3)) {
                         nextGen[y][x] = '*';
                     } 
+                //Entry not populated + 3 neighbours -> Populate entry
                 } else if (3 == n) {
                     nextGen[y][x] = '*';
                 }
@@ -73,7 +77,7 @@ public class Conway {
         }
         return (isPopulated(xPos, yPos, grid))? count - 1: count;
     }
-
+    //Count number of neighbour in surrounding 3x3 (within matrix) excluding entry itself
     private int countNeighboursWithStream(int xPos, int yPos, char[][] grid) {
         int count = 0;
         int[] row = IntStream.range(yPos-1, yPos+2)
@@ -89,6 +93,7 @@ public class Conway {
                 }
             }
         }
+        System.out.printf("Count: %d ", count);
         return (isPopulated(xPos, yPos, grid))? count - 1: count;
     }
 
